@@ -1,5 +1,6 @@
 import argparse
 import torch
+from tqdm import tqdm
 
 from trainer import ImageLoader
 from model.wide_res_net import WideResNet
@@ -12,7 +13,7 @@ def get_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--batch_size', type=int, default=128)
-    parser.add_argument('--fn', tpe=str, default='model.dat')
+    parser.add_argument('--fn', type=str, default='model.dat')
     
     args = parser.parse_args()
     return args
@@ -34,8 +35,8 @@ class Predictor(object):
 
     def inference(self):
         results = []
-        for inputs, targets in self.test_loader:
-            outputs = self.model(inputs)
+        for inputs, targets in tqdm(self.test_loader):
+            outputs = self.model(inputs.to(DEVICE))
             results += torch.argmax(outputs.data, 1).cpu().tolist()
         return results
 
