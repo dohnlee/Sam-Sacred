@@ -1,4 +1,3 @@
-# ImageClassification
 
 reference : https://github.com/davda54/sam
 
